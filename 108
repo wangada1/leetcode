@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/*
+leetcode 108
+给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 高度平衡 二叉搜索树。
+高度平衡 二叉树是一棵满足「每个节点的左右两个子树的高度差的绝对值不超过 1 」的二叉树。
+*/
+ //二叉搜索树：左儿子以及左儿子的子孙<根节点<右儿子及右儿子的子孙，其中序遍历是升序序列
+ //对于升序数组，构造二叉高度平衡搜索树的方式是，始终将中间的值放在根节点，然后迭代
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize){
+    struct TreeNode* partition(int left,int right){
+        if(right<left) return NULL;
+        int mid = (left+right)/2;
+        struct TreeNode* root = malloc(sizeof(struct TreeNode));
+        root->val = nums[mid];
+        root->left = partition(left,mid-1);
+        root->right = partition(mid+1,right);
+        return root;
+    }
+    struct TreeNode* result = malloc(sizeof(struct TreeNode));
+    result = partition(0,numsSize-1);
+    return result;
+}
